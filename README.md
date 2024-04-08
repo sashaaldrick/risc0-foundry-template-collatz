@@ -151,7 +151,7 @@ Below are the primary files in the project directory
 │       └── bin                     
 │           └── publisher.rs        // Example app to publish program results into your app contract 
 ├── contracts
-│   ├── CollatzNumber.sol              // Basic example contract for you to modify
+│   ├── CollatzNumber.sol           // Basic example contract that stores the largest number provably shown to satisfy the Collatz conjecture
 │   └── ImageID.sol                 // Generated contract with the image ID for your zkVM program
 ├── methods
 │   ├── Cargo.toml
@@ -159,7 +159,7 @@ Below are the primary files in the project directory
 │   │   ├── Cargo.toml
 │   │   └── src
 │   │       └── bin                 // You can add additionally guest prgrams to this folder
-│   │           └── is_even.rs      // Example guest program for cheking if a number is even
+│   │           └── collatz.rs      // Example guest program for cheking if a number satisfies the Collatz conjecture
 │   └── src
 │       └── lib.rs                  // Compiled image IDs and tests for your guest programs
 └── tests

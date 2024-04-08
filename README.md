@@ -151,7 +151,7 @@ Below are the primary files in the project directory
 │       └── bin                     
 │           └── publisher.rs        // Example app to publish program results into your app contract 
 ├── contracts
-│   ├── EvenNumber.sol              // Basic example contract for you to modify
+│   ├── CollatzNumber.sol              // Basic example contract for you to modify
 │   └── ImageID.sol                 // Generated contract with the image ID for your zkVM program
 ├── methods
 │   ├── Cargo.toml
@@ -163,7 +163,7 @@ Below are the primary files in the project directory
 │   └── src
 │       └── lib.rs                  // Compiled image IDs and tests for your guest programs
 └── tests
-    ├── EvenNumber.t.sol            // Tests for the basic example contract
+    ├── CollatzNumber.t.sol            // Tests for the basic example contract
     └── Elf.sol                     // Generated contract with paths the guest program ELF files.
 ```
 

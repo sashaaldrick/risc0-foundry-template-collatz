@@ -25,9 +25,19 @@ fn main() {
     // Decode and parse the input
     let number = <U256>::abi_decode(&input_bytes, true).unwrap();
 
+    assert_ne!(number, U256::from(0), "Input number must not be zero.");
+
     // Run the computation.
-    // In this case, asserting that the provided number is even.
-    assert!(!number.bit(0), "number is not even");
+    let mut n: U256 = number;
+
+    // number will only be committed if it satisfies the Collatz conjecture.
+    while n != U256::from(1) {
+        if !n.bit(0) {
+            n = n.checked_div(U256::from(2)).unwrap();
+        } else {
+            n = n.checked_mul(U256::from(3)).unwrap() + U256::from(1);
+        }
+    }
 
     // Commit the journal that will be received by the application contract.
     // Journal is encoded using Solidity ABI for easy decoding in the app contract.

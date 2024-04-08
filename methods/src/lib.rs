@@ -22,32 +22,66 @@ mod tests {
     use risc0_zkvm::{default_executor, ExecutorEnv};
 
     #[test]
-    fn proves_even_number() {
-        let even_number = U256::from(1304);
+    fn proves_one() {
+        let one = U256::from(1);
 
         let env = ExecutorEnv::builder()
-            .write_slice(&even_number.abi_encode())
+            .write_slice(&one.abi_encode())
             .build()
             .unwrap();
 
         // NOTE: Use the executor to run tests without proving.
-        let session_info = default_executor().execute(env, super::IS_EVEN_ELF).unwrap();
+        let session_info = default_executor().execute(env, super::COLLATZ_ELF).unwrap();
 
         let x = U256::abi_decode(&session_info.journal.bytes, true).unwrap();
-        assert_eq!(x, even_number);
+        assert_eq!(x, one);
     }
 
     #[test]
-    #[should_panic(expected = "number is not even")]
-    fn rejects_odd_number() {
-        let odd_number = U256::from(75);
+    fn proves_two() {
+        let two = U256::from(2);
 
         let env = ExecutorEnv::builder()
-            .write_slice(&odd_number.abi_encode())
+            .write_slice(&two.abi_encode())
             .build()
             .unwrap();
 
         // NOTE: Use the executor to run tests without proving.
-        default_executor().execute(env, super::IS_EVEN_ELF).unwrap();
+        let session_info = default_executor().execute(env, super::COLLATZ_ELF).unwrap();
+
+        let x = U256::abi_decode(&session_info.journal.bytes, true).unwrap();
+        assert_eq!(x, two);
     }
+
+    #[test]
+    fn proves_large_number() {
+        let two = U256::from(12931217);
+
+        let env = ExecutorEnv::builder()
+            .write_slice(&two.abi_encode())
+            .build()
+            .unwrap();
+
+        // NOTE: Use the executor to run tests without proving.
+        let session_info = default_executor().execute(env, super::COLLATZ_ELF).unwrap();
+
+        let x = U256::abi_decode(&session_info.journal.bytes, true).unwrap();
+        assert_eq!(x, two);
+    }
+
+    #[test]
+    #[should_panic(expected = "Input number must not be zero.")]
+    fn rejects_zero() {
+        let zero = U256::from(0);
+
+        let env = ExecutorEnv::builder()
+            .write_slice(&zero.abi_encode())
+            .build()
+            .unwrap();
+
+        // NOTE: Use the executor to run tests without proving.
+        default_executor().execute(env, super::COLLATZ_ELF).unwrap();
+    }
+
+
 }

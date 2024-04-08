@@ -21,11 +21,11 @@ use alloy_sol_types::{sol, SolInterface, SolValue};
 use anyhow::{Context, Result};
 use apps::{BonsaiProver, TxSender};
 use clap::Parser;
-use methods::IS_EVEN_ELF;
+use methods::COLLATZ_ELF;
 
-// `IEvenNumber` interface automatically generated via the alloy `sol!` macro.
+// `ICollatzNumber` interface automatically generated via the alloy `sol!` macro.
 sol! {
-    interface IEvenNumber {
+    interface ICollatzNumber {
         function set(uint256 x, bytes32 post_state_digest, bytes calldata seal);
     }
 }
@@ -72,14 +72,14 @@ fn main() -> Result<()> {
     let input = args.input.abi_encode();
 
     // Send an off-chain proof request to the Bonsai proving service.
-    let (journal, post_state_digest, seal) = BonsaiProver::prove(IS_EVEN_ELF, &input)?;
+    let (journal, post_state_digest, seal) = BonsaiProver::prove(COLLATZ_ELF, &input)?;
 
     // Decode the journal. Must match what was written in the guest with
     // `env::commit_slice`.
     let x = U256::abi_decode(&journal, true).context("decoding journal data")?;
 
-    // Encode the function call for `IEvenNumber.set(x)`.
-    let calldata = IEvenNumber::IEvenNumberCalls::set(IEvenNumber::setCall {
+    // Encode the function call for `ICollatzNumber.set(x)`.
+    let calldata = ICollatzNumber::ICollatzNumberCalls::set(ICollatzNumber::setCall {
         x,
         post_state_digest,
         seal,

@@ -20,7 +20,9 @@ import {IRiscZeroVerifier} from "risc0/IRiscZeroVerifier.sol";
 import {ImageID} from "./ImageID.sol"; // auto-generated contract after running `cargo build`.
 
 /// @title A starter application using RISC Zero.
-/// @notice This basic application holds a number, guaranteed to be even.
+/// @notice This basic application holds a number, guaranteed to satisfy the Collatz conjecture.
+/// @notice The number can be set by calling the `set` function.
+/// @notice If the new proven number is larger than the currently stored one, the contract will update the number.
 /// @dev This contract demonstrates one pattern for offloading the computation of an expensive
 ///      or difficult to implement function to a RISC Zero guest running on Bonsai.
 contract CollatzNumber {
@@ -39,7 +41,7 @@ contract CollatzNumber {
         number = 0;
     }
 
-    /// @notice Store a new number which is larger than the current stored number. 
+    /// @notice Store a new number which is larger than the current stored number.
     /// @notice Requires a RISC Zero proof that the new number satisfies the Collatz conjecture.
     function set(uint256 x, bytes32 postStateDigest, bytes calldata seal) public {
         require(x > 0, "Zero not allowed.");

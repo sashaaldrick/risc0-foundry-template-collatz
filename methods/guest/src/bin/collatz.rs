@@ -22,6 +22,7 @@ fn main() {
     // Read the input data for this application.
     let mut input_bytes = Vec::<u8>::new();
     env::stdin().read_to_end(&mut input_bytes).unwrap();
+
     // Decode and parse the input
     let number = <U256>::abi_decode(&input_bytes, true).unwrap();
 
@@ -32,9 +33,9 @@ fn main() {
 
     // number will only be committed if it satisfies the Collatz conjecture.
     while n != U256::from(1) {
-        if !n.bit(0) {
+        if !n.bit(0) { // if the number is even, the least significant bit is 0
             n = n.checked_div(U256::from(2)).unwrap();
-        } else {
+        } else { // otherwise, the number is odd as the least significant bit is 1
             n = n.checked_mul(U256::from(3)).unwrap() + U256::from(1);
         }
     }
